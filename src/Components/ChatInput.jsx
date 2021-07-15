@@ -8,7 +8,6 @@ const ChatInput = () => {
     // var database = firebase.database();
 
     const [Text, setText] = React.useState("");
-    const [msgLoaded, setMsgLoader] = React.useState(false);
 
     const textHandler = (e) => {
         e.preventDefault();
@@ -17,54 +16,21 @@ const ChatInput = () => {
     };
 
 
-    useEffect(() => {
-
-        getMessages();
-        // if (firebase)
-        //     getMessages();
-
-    }, []);
-
-
-
-    function getMessages() {
-        var MessagesRef = firebase.database().ref('messages');
-        MessagesRef.get().then(
-            (
-                snapshot
-            ) => {
-                console.log(snapshot.val());
-            }
-
-
-        ).catch((error) => {
-            console.error(error);
-        });
-    }
-
-
-
     var time = Date.now || function () {
         return +new Date;
     };
 
-    time();
-
-
     function send() {
 
         var MessagesRef = firebase.database().ref('messages');
-
         var newMessageRef = MessagesRef.push();
-
         newMessageRef.set({
             sender: "user2",
             message: Text,
             timestamp: time(),
             status: "sent"
         });
-
-
+        setText("");
     }
 
 
