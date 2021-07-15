@@ -2,20 +2,20 @@ import React from "react";
 
 const home = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>Hello Lets chat</p>
+    <div className="max-h-screen h-screen bg-gray-700 content-center justify-center">
+      <div className="flex flex-col justify-center content-center">
+        <p className="text-4xl">Hello Lets chat</p>
 
         <p>
-          <a className="App-link" href="/user1">
+          <a className="text-blue-800 text-lg" href="/user1">
             User 1
           </a>
           {" | "}
-          <a className="App-link" href="user2">
+          <a className="text-blue-800 text-lg" href="user2">
             User 2
           </a>
         </p>
-      </header>
+      </div>
     </div>
   );
 };

@@ -1,26 +1,25 @@
 import React, { useEffect, useState } from 'react'
-import logo from './logo.svg'
 import './App.css'
-import fb from 'firebase/app';
 import 'firebase/database';
+
+
 import config from "./config"
 import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Redirect,
 } from "react-router-dom"
 import Home from './Pages/home';
+import ChatBox from './Pages/ChatBox';
 
 function App() {
-  let firebase;
-  let dbRef;
+
+
 
   useEffect(() => {
-    firebase = fb.initializeApp(config);
+    // fb.initializeApp(config);
   }, []);
-
-
-
 
   return (
 
@@ -29,6 +28,13 @@ function App() {
         <Route exact path="/">
           <Home />
         </Route>
+        <Route path="/user1" exact>
+          <ChatBox />
+        </Route>
+        <Route path="/user2" exact>
+          <ChatBox />
+        </Route>
+        <Redirect path="*" to="/" />
       </Switch>
 
     </Router>
