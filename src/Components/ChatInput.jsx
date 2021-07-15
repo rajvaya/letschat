@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
 import firebase from './../firebase'
 import "firebase/database"
+import { useLocation } from 'react-router-dom'
+
 
 const ChatInput = () => {
 
-
-    // var database = firebase.database();
-
+    const location = useLocation();
     const [Text, setText] = React.useState("");
 
     const textHandler = (e) => {
@@ -25,7 +25,7 @@ const ChatInput = () => {
         var MessagesRef = firebase.database().ref('messages');
         var newMessageRef = MessagesRef.push();
         newMessageRef.set({
-            sender: "user2",
+            sender: location.pathname.substring(1),
             message: Text,
             timestamp: time(),
             status: "sent"
@@ -38,7 +38,6 @@ const ChatInput = () => {
         <div className="flex flex-row">
 
             <input
-
                 type="text"
                 name="tweeturl/id"
                 value={Text}
