@@ -45,7 +45,7 @@ const ChatInput = () => {
                 onChange={textHandler}
                 placeholder="Write your Message"
                 autoCapitalize="none"
-                className="border-2 border-blue-700 p-2"
+                className="border-2 border-blue-700 p-2 flex-1"
             />
 
             <button className="border-2 border-blue-700 p-2" onClick={

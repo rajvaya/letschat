@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import firebase from './../firebase';
 import "firebase/database"
+import Message from './Message';
 
 const Messages = () => {
 
@@ -24,23 +25,18 @@ const Messages = () => {
         var MessagesRef = firebase.database().ref('messages');
         MessagesRef.on("child_added", (snapshot) => {
             console.log(snapshot.val());
-            setMessages((msg) => [...msg , snapshot.val()]);
+            setMessages((msg) => [...msg, snapshot.val()]);
         }
 
 
         );
-
-
-        // console.log()
-
-        // console.log(Messages.length);
         setMsgLoader(true);
     }
 
 
 
     return (
-        <div className="flex flex-1">
+        <div className="flex flex-col flex-1 overflow-y-scroll ">
 
 
             {
@@ -49,7 +45,7 @@ const Messages = () => {
 
                     {
                         Messages.map(msg => (
-                            <p>{msg.message}</p>
+                            <Message msg={msg} />
                         ))
 
                     }
