@@ -30,10 +30,10 @@ const ChatBox = () => {
 
     React.useEffect(() => {
         var MessagesRef = firebase.database().ref('messages');
-        MessagesRef.once("value", (snapshot) => {
+        MessagesRef.on("value", (snapshot) => {
+            setMessages([]);
             snapshot.forEach(snapshot => {
-                // console.log(snapshot.val());
-                // console.log(snapshot.key);
+
                 setMessages((msg) => [...msg, { key: snapshot.key, value: snapshot.val() }]);
             });
         }
