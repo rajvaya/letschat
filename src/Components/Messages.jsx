@@ -3,37 +3,7 @@ import firebase from './../firebase';
 import "firebase/database"
 import Message from './Message';
 
-const Messages = () => {
-
-
-
-    const [msgLoaded, setMsgLoader] = React.useState(false);
-    const [Messages, setMessages] = React.useState([]);
-
-
-    useEffect(() => {
-
-        getMessages();
-
-    }, []);
-
-
-
-
-
-    function getMessages() {
-        var MessagesRef = firebase.database().ref('messages');
-        MessagesRef.on("child_added", (snapshot) => {
-            console.log(snapshot.val());
-            setMessages((msg) => [...msg, snapshot.val()]);
-        }
-
-
-        );
-        setMsgLoader(true);
-    }
-
-
+const Messages = ({ MessagesList , msgLoaded}) => {
 
     return (
         <div className="flex flex-col flex-1 overflow-y-scroll ">
@@ -42,10 +12,9 @@ const Messages = () => {
             {
 
                 (msgLoaded) ? <div>
-
                     {
-                        Messages.map(msg => (
-                            <Message msg={msg} />
+                        MessagesList.map(msg => (
+                            <Message msg={msg.value} key={ msg.key}/>
                         ))
 
                     }
