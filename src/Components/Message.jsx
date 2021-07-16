@@ -1,35 +1,42 @@
-import React from 'react'
-import classNames from "classnames"
-import { useLocation } from 'react-router-dom'
-
-
-
+import React from "react";
+import classNames from "classnames";
+import { useLocation } from "react-router-dom";
 
 const Message = ({ msg }) => {
-
-
     const location = useLocation();
 
-
     function getColor() {
+        return location.pathname.substring(1) === msg.sender
+            ? "border-green-500"
+            : "border-pink-500";
+    }
 
+    function timeStampToDate(timestamp) {
+        var date = new Date(timestamp);
 
-        return location.pathname.substring(1) === msg.sender ? "border-green-500" : "border-pink-500";
-    };
+        return " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    }
 
     return (
-        <div className={classNames("flex flex-col m-2 border-4 rounded-xl p-2  whitespace-pre-wrap wrap break-words", getColor())}>
+        <div
+            className={classNames(
+                "flex flex-col m-2 border-4 rounded-xl p-2  whitespace-pre-wrap wrap break-words",
+                getColor()
+            )}
+        >
+            <p> {msg.message} </p>
+            <div className="flex flex-row justify-between">
 
-            <p>  {msg.message} </p>
-            {
-                location.pathname.substring(1) === msg.sender ?
-                    <p className="text-right">  {msg.status} </p> :
-                    <></>
+                        <p> time : {timeStampToDate(msg.timestamp)} </p>
 
-            }
-
+            {location.pathname.substring(1) === msg.sender ? (
+                <p className="text-right"> {msg.status} </p>
+            ) : (
+                <></>
+                )}
+                </div>
         </div>
-    )
-}
+    );
+};
 
-export default Message
+export default Message;

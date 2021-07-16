@@ -20,22 +20,14 @@ const ChatBox = () => {
 
 
 
-    function UpdateSeen(snapshot) {
-
-
+    function UpdateMessageStatus(snapshot, Msgstatus) {
 
         snapshot.forEach(snapshot => {
-
-
-
             if (snapshot.val().sender !== location.pathname.substring(1)) {
-
                 const snapRef = firebase.database().ref('messages').child(snapshot.key);
                 snapRef.update({
-                    status: "seen",
+                    status: Msgstatus,
                 });
-
-
             }
         });
 
@@ -50,12 +42,10 @@ const ChatBox = () => {
             snapshot.forEach(snapshot => {
                 setMessages((msg) => [...msg, { key: snapshot.key, value: snapshot.val() }]);
             });
-            UpdateSeen(snapshot);
+            UpdateMessageStatus(snapshot, "seen");
         }
         );
         setMsgLoader(true);
-
-
     }, []);
 
 
@@ -70,6 +60,7 @@ const ChatBox = () => {
                 <ChatHeader />
                 <Messages MessagesList={MessagesList} msgLoaded={msgLoaded} />
                 <ChatInput />
+        
             </div>
 
         </div>
