@@ -3,6 +3,7 @@ import firebase from './../firebase';
 import "firebase/database"
 import Message from './Message';
 
+
 const Messages = ({ MessagesList , msgLoaded}) => {
 
     return (

@@ -6,40 +6,55 @@ import ChatInput from '../Components/ChatInput'
 import Messages from '../Components/Messages'
 import firebase from "./../firebase"
 import "firebase/database"
+import { useLocation } from 'react-router-dom'
+
 
 const ChatBox = () => {
 
 
 
+
     const [msgLoaded, setMsgLoader] = React.useState(false);
     const [MessagesList, setMessages] = React.useState([]);
+    const location = useLocation();
 
 
 
-    // var ref = firebase.database().ref('messages');
-    // ref.on("child_changed", (snapshot) => {
-    //     console.log(snapshot.val());
-    //     setMessages((msg) => [
+    function UpdateSeen(snapshot) {
 
 
-    //         ...msg, snapshot.val()]);
-    //     console.log(Messages.length)
-    // }
-    // );
 
+        snapshot.forEach(snapshot => {
+
+
+
+            if (snapshot.val().sender !== location.pathname.substring(1)) {
+
+                const snapRef = firebase.database().ref('messages').child(snapshot.key);
+                snapRef.update({
+                    status: "seen",
+                });
+
+
+            }
+        });
+
+
+    }
 
     React.useEffect(() => {
         var MessagesRef = firebase.database().ref('messages');
+
         MessagesRef.on("value", (snapshot) => {
             setMessages([]);
             snapshot.forEach(snapshot => {
-
                 setMessages((msg) => [...msg, { key: snapshot.key, value: snapshot.val() }]);
             });
+            UpdateSeen(snapshot);
         }
         );
-
         setMsgLoader(true);
+
 
     }, []);
 
