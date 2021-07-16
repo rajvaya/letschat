@@ -4,7 +4,7 @@ import firebase from './../firebase';
 import "firebase/database"
 
 
-const ChatHeader = () => {
+const ChatHeader = ({ isChat, setChat }) => {
 
     const location = useLocation();
 
@@ -22,13 +22,14 @@ const ChatHeader = () => {
     });
 
     return (
-        <div className="w-full flex flex-row gap-2 p-4 border-green-300 border-2">
+        <div className="w-full flex flex-row justify-between content-center m-0  px-4 border-green-300 border-2">
 
-            <p>{location.pathname === "/user1" ? "User 2" : "User 1"}</p>
+            <p className="self-center">{location.pathname === "/user1" ? "User 2 - " : "User 1 - "} {status}</p>
+            <button className="p-2 m-0 border-indigo-900 border-2" onClick={() => {
+                setChat(!isChat);
+            }}> {isChat ? "Hide " : "Show "}Chat</button>
 
-            <p>{status}</p>
-
-        </div>
+        </div >
     )
 }
 
