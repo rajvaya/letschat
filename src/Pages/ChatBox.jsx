@@ -9,65 +9,43 @@ import "firebase/database"
 import { useLocation } from 'react-router-dom'
 
 
-const ChatBox = () => {
 
+const ChatBox = ({ }) => {
 
-
-
+    const { state } = useLocation();
     const [msgLoaded, setMsgLoader] = React.useState(false);
-    const [isChat, setChat] = React.useState(true);
     const [MessagesList, setMessages] = React.useState([]);
-    
     const location = useLocation();
 
 
 
+    const [status, setStatus] = React.useState("offline");
 
-    // useEffect(() => {
+    function UpdateUserStatus() {
+        var presenceRef = firebase.database().ref(`users/${state.currentUser}`);
+        presenceRef.update({
+            status: "online",
+        });
+        presenceRef.onDisconnect().update({
+            status: "offline",
+        });
+        var statusRef = firebase.database().ref(`users/${state.chatWithUser}`);
+            statusRef.on("value", (snapshot) => {
+                setStatus(snapshot.val().status);
+            }
+            );
+    }
 
-
-
-    //     MessagesList.forEach(snapshot => {
-    //         if (snapshot["value"].sender !== location.pathname.substring(1)) {
-    //             const snapRef = firebase.database().ref('messages').child(snapshot.key);
-    //             if (snapshot["value"].status === "sent" && isChat) {
-    //                 snapRef.update({
-    //                     status: "seen",
-    //                 });
-    //             }
-
-    //             else {
-    //                 snapRef.update({
-    //                     status: "delivered",
-    //                 });
-    //             }
-
-    //             if (snapshot["value"].status === "delivered" && isChat) {
-    //                 snapRef.update({
-    //                     status: "seen",
-    //                 });
-    //             }
-
-    //         }
-
-
-    //     })
-    // }, [isChat]);
 
 
 
     function UpdateMessageStatus(snapshot) {
-
         snapshot.forEach(snapshot => {
             if (snapshot.val().sender !== location.pathname.substring(1)) {
-                const snapRef = firebase.database().ref('messages').child(snapshot.key);
-                if (snapshot.val().status === "sent") {
-                    snapRef.update({
-                        status: "seen",
-                    });
-
-                }
-
+                const snapRef = firebase.database().ref(`chats/${state.ChatID}`).child(snapshot.key);
+                snapRef.update({
+                    status: "seen",
+                });
                 // else {
                 //     snapRef.update({
                 //         status: "delivered",
@@ -85,13 +63,14 @@ const ChatBox = () => {
     }
 
     React.useEffect(() => {
-        var MessagesRef = firebase.database().ref('messages');
+        UpdateUserStatus();
+        var MessagesRef = firebase.database().ref(`chats/${state.chatID}`);
         MessagesRef.on("value", (snapshot) => {
             setMessages([]);
             snapshot.forEach(snapshot => {
                 setMessages((msg) => [...msg, { key: snapshot.key, value: snapshot.val() }]);
             });
-            UpdateMessageStatus(snapshot);
+            // UpdateMessageStatus(snapshot);
         }
         );
         setMsgLoader(true);
@@ -106,9 +85,9 @@ const ChatBox = () => {
         <div className="flex flex-col items-center justify-end h-screen ">
             <div className="flex flex-col border-4 max-h-full h-full w-full max-w-sm border-purple-700">
 
-                <ChatHeader isChat={isChat} setChat={setChat} />
-                {isChat ? <Messages MessagesList={MessagesList} msgLoaded={msgLoaded} /> : <div className="h-full"> </div>}
-                <ChatInput />
+                <ChatHeader chatWithUser={state.chatWithUser} status={status} />
+                <Messages MessagesList={MessagesList} msgLoaded={msgLoaded} currentUser={state.currentUser}  />
+                <ChatInput status={status}  currentUser={state.currentUser} chatID={state.chatID} />
 
             </div>
 

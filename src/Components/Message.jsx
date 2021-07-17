@@ -2,11 +2,13 @@ import React from "react";
 import classNames from "classnames";
 import { useLocation } from "react-router-dom";
 
-const Message = ({ msg }) => {
+const Message = ({ currentUser , msg }) => {
     const location = useLocation();
 
+    console.log(msg);
+
     function getColor() {
-        return location.pathname.substring(1) === msg.sender
+        return (currentUser === msg.sender)
             ? "border-green-500"
             : "border-pink-500";
     }
@@ -27,14 +29,14 @@ const Message = ({ msg }) => {
             <p> {msg.message} </p>
             <div className="flex flex-row justify-between">
 
-                        <p> time : {timeStampToDate(msg.timestamp)} </p>
+                <p> time : {timeStampToDate(msg.timestamp)} </p>
 
-            {location.pathname.substring(1) === msg.sender ? (
-                <p className="text-right"> {msg.status} </p>
-            ) : (
-                <></>
+                {currentUser === msg.sender ? (
+                    <p className="text-right"> {msg.status} </p>
+                ) : (
+                    <></>
                 )}
-                </div>
+            </div>
         </div>
     );
 };

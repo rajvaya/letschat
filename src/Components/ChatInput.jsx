@@ -4,11 +4,8 @@ import "firebase/database"
 import { useLocation } from 'react-router-dom'
 
 
-const ChatInput = () => {
-
-    const location = useLocation();
+const ChatInput = ({ currentUser, status, chatID }) => {
     const [Text, setText] = React.useState("");
-
     const textHandler = (e) => {
         e.preventDefault();
         console.log(e.target.value);
@@ -22,13 +19,13 @@ const ChatInput = () => {
 
     function send() {
 
-        var MessagesRef = firebase.database().ref('messages');
+        var MessagesRef = firebase.database().ref(`chats/${chatID}`);
         var newMessageRef = MessagesRef.push();
         newMessageRef.set({
-            sender: location.pathname.substring(1),
+            sender: currentUser,
             message: Text,
             timestamp: time(),
-            status: "sent"
+            status: (status === "offline") ? "sent" : "delivered",
         });
         setText("");
     }

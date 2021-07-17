@@ -24,9 +24,18 @@ const Users = () => {
             console.log("Users");
 
             if (currentUser.value.users[chatwith]) {
-                console.log("Chat id Exist");
+                console.log("Chat id Exist" , currentUser.value.users[chatwith]);
 
-                // Push to Chat with parameter ID
+
+                history.push({
+                    pathname: `/users/${id}/chat`,
+                    state: {
+                        currentUser: id,
+                        chatWithUser: chatwith,
+                        chatID : currentUser.value.users[chatwith],
+                        
+                    },
+                  });
             }
 
             else {
@@ -126,19 +135,19 @@ const Users = () => {
             {isLoading ? (
                 <div> Loading.......... </div>
             ) : (
-                <div className="flex flex-col items-center justify-end h-screen ">
-                    <div className="flex flex-col border-4 max-h-full h-full w-full max-w-sm border-purple-700">
+                <div className="flex flex-col items-center justify-end max-h-screen h-screen ">
+                    <p className="text-center text-4xl py-4 border-4 max-w-sm w-full border-purple-700">Welcome {id}</p>
+                    <div className="flex flex-col border-4 max-h-sc h-full w-full max-w-sm border-purple-700 overflow-y-scroll overflow-x-scroll">
 
-                        <p className="text-center text-xl py-4 border-b-4 border-purple-700">Welcome {id}</p>
+
 
                         {
                             usersList.map(user => (
-                                (user.value.name !== id) ? <p>{`${user.value.name} is ${user.value.status}`}</p> : <></>
+                                (user.value.name !== id) ? <p className="text-left text-1xl p-4 border-b-4 border-purple-700" onClick={() => { OpenChat(user.value.name) }} >{`${user.value.name} is ${user.value.status}`}</p> : <></>
                             ))
 
                         }
 
-                        <button onClick={() => { OpenChat("XYZ") }}>Click</button>
 
                     </div>
                 </div>
