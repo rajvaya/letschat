@@ -46,18 +46,7 @@ const ChatBox = ({ }) => {
                 snapRef.update({
                     status: "seen",
                 });
-                // else {
-                //     snapRef.update({
-                //         status: "delivered",
-                //     });
-                // }
-
-                // if (snapshot.val().status === "delivered" && isChat) {
-                //     snapRef.update({
-                //         status: "seen",
-                //     });
-                // }
-
+               
             }
         });
     }
@@ -68,9 +57,12 @@ const ChatBox = ({ }) => {
         MessagesRef.on("value", (snapshot) => {
             setMessages([]);
             snapshot.forEach(snapshot => {
-                setMessages((msg) => [...msg, { key: snapshot.key, value: snapshot.val() }]);
+
+                if (snapshot.key !== "createdBy") {
+                    setMessages((msg) => [...msg, { key: snapshot.key, value: snapshot.val() }]);
+                }
             });
-            // UpdateMessageStatus(snapshot);
+            UpdateMessageStatus(snapshot);
         }
         );
         setMsgLoader(true);
