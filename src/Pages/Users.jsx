@@ -14,6 +14,68 @@ const Users = () => {
         CheckUserExist();
     }, []);
 
+
+
+
+    function OpenChat(chatwith) {
+        let currentUser = usersList.find(user => user.value.name === id);
+        console.log("Current User", currentUser);
+        if (currentUser.value.users) {
+            console.log("Users");
+
+            if (currentUser.value.users.chatwith) {
+                console.log("Chat id Exist");
+
+                // Push to Chat with parameter ID
+            }
+
+            else {
+                console.log("New Chat");
+                var chatsRef = firebase.database().ref('chats');
+                var CurrentUserRef = firebase.database().ref(`users/${currentUser.value.name}/users/`);
+                var ChatWithUserRef = firebase.database().ref(`users/${chatwith}/users/`);
+                var newChatRef = chatsRef.push();
+                console.log(newChatRef.key);
+                newChatRef.set({
+                    createdBy: id,
+                });
+
+                var CUR = CurrentUserRef.child(chatwith);
+                var CWR = ChatWithUserRef.child(currentUser.value.name);
+                CUR.set(newChatRef.key);
+                CWR.set(newChatRef.key);
+
+
+
+            }
+
+
+
+            // console.log(CurrentUser.user[chatwith]);
+        }
+
+
+        else {
+
+            console.log("New Chat without Users");
+            var chatsRef = firebase.database().ref('chats');
+            var CurrentUserRef = firebase.database().ref(`users/${currentUser.value.name}/users/`);
+            var ChatWithUserRef = firebase.database().ref(`users/${chatwith}/users/`);
+            var newChatRef = chatsRef.push();
+            console.log(newChatRef.key);
+            newChatRef.set({
+                createdBy: id,
+            });
+
+            var CUR = CurrentUserRef.child(chatwith);
+            var CWR = ChatWithUserRef.child(currentUser.value.name);
+            CUR.set(newChatRef.key);
+            CWR.set(newChatRef.key);
+        }
+
+
+    }
+
     function UpdateUserStatus() {
         var presenceRef = firebase.database().ref(`users/${id}`);
         presenceRef.update({
@@ -28,14 +90,14 @@ const Users = () => {
 
 
 
+
+
     function getUsers() {
         var usersRef = firebase.database().ref('users');
         usersRef.on("value", (snapshot) => {
             setUsers([]);
             snapshot.forEach(snapshot => {
-                if (snapshot.val().name !== id) {
-                    setUsers((msg) => [...msg, snapshot.val()]);
-                }
+                setUsers((msg) => [...msg, { key: snapshot.key, value: snapshot.val() }]);
             });
         }
         );
@@ -74,10 +136,12 @@ const Users = () => {
 
                         {
                             usersList.map(user => (
-                                <p>{`${user.name} is ${user.status}`}</p>
+                                (user.value.name !== id) ? <p>{`${user.value.name} is ${user.value.status}`}</p> : <></>
                             ))
 
                         }
+
+                        <button onClick={() => { OpenChat("XYZ") }}>Click</button>
 
                     </div>
                 </div>

@@ -10,14 +10,14 @@ const ChatHeader = ({ isChat, setChat }) => {
 
     const [status, setStatus] = React.useState("offline");
     React.useEffect(() => {
-        var presenceRef = firebase.database().ref(location.pathname.substring(1));
-        presenceRef.set("online");
-        presenceRef.onDisconnect().set("offline")
-        var statusRef = firebase.database().ref(location.pathname.substring(1) === "user1" ? "user2" : "user1");
-        statusRef.on("value", (snapshot) => {
-            setStatus(snapshot.val());
-        }
-        );
+        // var presenceRef = firebase.database().ref(location.pathname.substring(1));
+        // presenceRef.set("online");
+        // presenceRef.onDisconnect().set("offline")
+        // var statusRef = firebase.database().ref(location.pathname.substring(1) === "user1" ? "user2" : "user1");
+        // statusRef.on("value", (snapshot) => {
+        //     setStatus(snapshot.val());
+        // }
+        // );
 
     });
 

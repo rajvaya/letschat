@@ -26,9 +26,9 @@ const home = () => {
       else {
         var usersRef = firebase.database().ref('users');
         var newuser = usersRef.child(Text);
-       await newuser.set({
+        await newuser.set({
           name: Text,
-          status: "offline"
+          status: "offline",
         });
       }
       history.push(`users/${Text}`);

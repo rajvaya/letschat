@@ -25,6 +25,9 @@ function App() {
         <Route exact path="/users/:id">
           <Users />
         </Route>
+        <Route exact path="/users/:id/chat">
+          <ChatBox />
+        </Route>
         <Redirect path="*" to="/" />
       </Switch>
 
