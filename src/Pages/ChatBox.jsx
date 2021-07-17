@@ -17,6 +17,7 @@ const ChatBox = () => {
     const [msgLoaded, setMsgLoader] = React.useState(false);
     const [isChat, setChat] = React.useState(true);
     const [MessagesList, setMessages] = React.useState([]);
+    
     const location = useLocation();
 
 
