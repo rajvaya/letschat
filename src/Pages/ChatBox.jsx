@@ -32,10 +32,6 @@ const ChatBox = ({ }) => {
         );
     }
 
-
-
-
-
     function UpdateMessageStatus(snapshot) {
         snapshot.forEach(snapshot => {
             if (snapshot.val().sender !== state.currentUser) {
