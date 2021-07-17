@@ -26,7 +26,10 @@ const ChatHeader = ({ isChat, setChat }) => {
 
             <p className="self-center">{location.pathname === "/user1" ? "User 2 - " : "User 1 - "} {status}</p>
             <button className="p-2 m-0 border-indigo-900 border-2" onClick={() => {
+
+
                 setChat(!isChat);
+
             }}> {isChat ? "Hide " : "Show "}Chat</button>
 
         </div >
