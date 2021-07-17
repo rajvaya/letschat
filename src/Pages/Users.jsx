@@ -23,7 +23,7 @@ const Users = () => {
         if (currentUser.value.users) {
             console.log("Users");
 
-            if (currentUser.value.users.chatwith) {
+            if (currentUser.value.users[chatwith]) {
                 console.log("Chat id Exist");
 
                 // Push to Chat with parameter ID
@@ -49,9 +49,6 @@ const Users = () => {
 
             }
 
-
-
-            // console.log(CurrentUser.user[chatwith]);
         }
 
 
